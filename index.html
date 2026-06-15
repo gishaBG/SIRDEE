@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIRDEE-Deformaciones</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap solo para componentes JS -->
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen">
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+
+            <!-- Logos -->
+            <!-- Franja completa de logos -->
+            <div class="w-full flex items-center justify-between px-6 py-4 bg-white">
+
+                <!-- Logo UAGro -->
+                <div class="w-48 sm:w-60 md:w-72">
+                    <img src="UAGro_azul.png" class="w-full h-auto object-contain">
+                </div>
+
+                <!-- Logo MIIDT/SIRDEE -->
+                <div class="w-[450px] sm:w-[550px] md:w-[650px]">
+                    <img src="logo.png" class="w-full h-auto object-contain">
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="flex flex-wrap gap-3 justify-end mb-8">
+                <button
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+                    data-bs-toggle="modal" data-bs-target="#modalTiempo">
+                    Configurar intervalo
+                </button>
+
+                <button
+                    class="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+                    id="btnGraficar">
+                    Graficar Deformaciones
+                </button>
+
+                <button
+                    class="px-4 py-2 border border-purple-600 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+                    id="btnDatos">
+                    Conectar Puerto Serial
+                </button>
+
+                <!-- Botón de grabación (inicialmente oculto) -->
+                <button
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm flex items-center whitespace-nowrap hidden"
+                    id="btnGrabar">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Iniciar Grabación
+                </button>
+
+                <div class="relative">
+                    <button
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm flex items-center gap-2 whitespace-nowrap"
+                        type="button" id="btnFormatos" data-bs-toggle="dropdown">
+                        Formatos de ensayos
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnFormatos">
+                        <li><a class="dropdown-item" href="#" id="formatoCilindros">Cilindros</a></li>
+                        <li><a class="dropdown-item" href="#" id="formatoMuretes">Muretes</a></li>
+                        <li><a class="dropdown-item" href="#" id="formatoPilas">Pilas</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gráfico -->
+            <div class="bg-white border border-blue-200 rounded-xl p-4 shadow-sm mb-8">
+                <canvas id="graficaDeformaciones" class="w-full h-64 md:h-80"></canvas>
+            </div>
+
+            <!-- Título -->
+            <h3 class="text-2xl md:text-3xl font-bold text-center text-blue-900 mb-6">
+                Tabla de Deformaciones
+            </h3>
+
+            <!-- Tabla -->
+            <div class="overflow-x-auto rounded-xl border border-blue-200 shadow-sm mb-8">
+                <table id="tablaDatos" class="min-w-full divide-y divide-blue-200">
+                    <thead class="bg-gradient-to-r from-blue-900 to-blue-800">
+                        <tr>
+                            <th class="px-4 py-3 text-sm font-semibold text-white text-center align-middle">
+                                Lectura de<br>Tiempo (seg)
+                            </th>
+                            <th class="px-4 py-3 text-sm font-semibold text-white text-center align-middle">
+                                Deformación<br>LVDT1 (mm)
+                            </th>
+                            <th class="px-4 py-3 text-sm font-semibold text-white text-center align-middle">
+                                Deformación<br>LVDT2 (mm)
+                            </th>
+                            <th class="px-4 py-3 text-sm font-semibold text-white text-center align-middle">
+                                Deformación<br>Promedio (mm)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-100">
+                        <!-- Aquí se insertarán las filas dinámicas -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal de intervalo de tiempo -->
+            <div class="modal fade" id="modalTiempo" tabindex="-1" aria-labelledby="modalTiempoLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <form id="formTiempo" class="modal-content rounded-xl overflow-hidden">
+                        <div class="modal-header bg-gradient-to-r from-blue-900 to-blue-800 text-white p-4">
+                            <h5 class="modal-title text-lg font-semibold">Configurar intervalo de tiempo</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-6">
+                            <div class="mb-4">
+                                <label for="salto" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Intervalo de muestreo (segundos)
+                                </label>
+                                <select
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                    id="salto" required>
+                                    <option value="1" selected>1 segundo</option>
+                                    <option value="5">5 segundos</option>
+                                    <option value="10">10 segundos</option>
+                                    <option value="15">15 segundos</option>
+                                    <option value="20">20 segundos</option>
+                                </select>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    Seleccione cada cuántos segundos se tomarán lecturas del puerto serial
+                                </p>
+                            </div>
+                        </div>
+                        <div class="modal-footer p-4 bg-gray-50 flex gap-3">
+                            <button type="submit"
+                                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 font-medium">
+                                Aceptar
+                            </button>
+                            <button type="button"
+                                class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors duration-200 font-medium"
+                                data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal de selección de puerto -->
+    <div class="modal fade" id="modalPuerto" tabindex="-1" aria-labelledby="modalPuertoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content rounded-xl overflow-hidden">
+                <div class="modal-header bg-gradient-to-r from-blue-900 to-blue-800 text-white p-4">
+                    <h5 class="modal-title text-lg font-semibold flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                        Seleccionar Puerto Serial
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="text-center mb-4">
+                        <div
+                            class="bg-gradient-to-br from-blue-100 to-blue-50 p-4 rounded-full inline-flex mb-3 border-2 border-blue-200 shadow-sm">
+                            <div class="relative">
+                                <!-- Laptop -->
+                                <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <!-- Cable USB -->
+                                <svg class="absolute -bottom-2 -right-2 w-6 h-6 text-green-500" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <!-- Chip ESP32 -->
+                                <svg class="absolute top-0 right-0 w-4 h-4 text-purple-500" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">Puertos Disponibles</h3>
+                        <p class="text-sm text-gray-600 mt-1">Selecciona el puerto donde está conectado tu ESP32</p>
+                    </div>
+
+                    <div id="portSelector" class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
+                        <!-- Los puertos se insertarán aquí dinámicamente -->
+                    </div>
+
+                    <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-gray-500 mt-0.5 mr-2 flex-shrink-0" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <p class="text-xs text-gray-600">
+                                    <strong>Consejo:</strong> Si no ves tu dispositivo, asegúrate de que:
+                                </p>
+                                <ul class="text-xs text-gray-500 mt-1 space-y-1">
+                                    <li class="flex items-start">
+                                        <span class="mr-1">•</span>
+                                        El ESP32 esté conectado por USB
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="mr-1">•</span>
+                                        No esté siendo usado por otro programa
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="mr-1">•</span>
+                                        Tener los drivers correctos instalados
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-4 bg-gray-50 flex justify-between">
+                    <button type="button" onclick="listarPuertosDisponibles()"
+                        class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors duration-200 font-medium flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Actualizar lista
+                    </button>
+                    <button type="button"
+                        class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors duration-200 font-medium"
+                        data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de error -->
+    <div class="modal fade" id="modalError" tabindex="-1" aria-labelledby="modalErrorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content rounded-xl overflow-hidden">
+                <div class="modal-header bg-gradient-to-r from-red-600 to-red-500 text-white p-4">
+                    <h5 class="modal-title text-lg font-semibold">Error de Conexión</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-6">
+                    <div class="text-center mb-4">
+                        <!-- En el modal de error -->
+                        <div class="bg-red-100 p-3 rounded-full inline-flex mb-3">
+                            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.226 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                            </svg>
+                        </div>
+                        <p id="errorMensaje" class="text-gray-700"></p>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-2 flex-shrink-0" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-yellow-800">Solución de problemas</p>
+                                <ul class="text-xs text-yellow-700 mt-1 space-y-1">
+                                    <li>• Verifica que el cable USB esté bien conectado</li>
+                                    <li>• Reinicia el ESP32</li>
+                                    <li>• Prueba con otro puerto USB</li>
+                                    <li>• Cierra otros programas que puedan usar el puerto serial</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-4 bg-gray-50">
+                    <button type="button"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium w-full"
+                        data-bs-dismiss="modal">
+                        Entendido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estado de conexión en la barra superior -->
+    <!-- Estado de conexión con LED visual -->
+    <div class="fixed top-4 left-4 z-40">
+        <div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200 px-4 py-3">
+            <div class="flex items-center space-x-3">
+                <!-- LED de estado -->
+                <div class="relative">
+                    <div id="ledEstado"
+                        class="w-6 h-6 rounded-full bg-gray-400 border-2 border-gray-300 led-desconectado"></div>
+                    <div id="ledBrillo" class="absolute inset-0 w-6 h-6 rounded-full opacity-20 bg-gray-400"></div>
+                </div>
+
+                <!-- Texto del estado -->
+                <div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-700 mr-2">Estado:</span>
+                        <span id="estadoConexion" class="text-sm font-medium text-gray-500">
+                            Desconectado
+                        </span>
+                    </div>
+                    <div id="estadoDetalle" class="text-xs text-gray-400 mt-1">
+                        Esperando conexión...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de ayuda flotante -->
+    <button id="btnAyuda"
+        class="fixed bottom-4 right-4 z-40 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all hover:scale-110">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </button>
+
+    <!-- Bootstrap JS (solo para modales/dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

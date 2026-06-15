@@ -1,0 +1,190 @@
+/* Estilos mínimos adicionales para complementar Tailwind */
+
+/* Mejoras para tablas en móviles */
+@media (max-width: 640px) {
+
+    #tablaDatos th,
+    #tablaDatos td {
+        padding: 0.5rem 0.25rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    .editable {
+        min-height: 28px !important;
+    }
+}
+
+/* Estilos para celdas editables */
+.editable {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.editable:focus {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Mejoras para el gráfico */
+#graficaDeformaciones {
+    max-height: 400px;
+}
+
+/* Ajustes para dropdown de Bootstrap con Tailwind */
+.dropdown-menu {
+    border-radius: 0.5rem !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+}
+
+.dropdown-item:hover {
+    background-color: #f3f4f6 !important;
+}
+
+/* Asegurar que los modales se vean bien */
+.modal-content {
+    border: none !important;
+}
+
+/* En index.css */
+.logo-sirdee {
+    max-width: 150px !important;
+    min-width: 50px !important;
+}
+
+/* Animaciones personalizadas */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.port-item:hover {
+    transform: translateX(4px);
+    transition: transform 0.2s ease;
+}
+
+/* Estilo para scrollbar del selector de puertos */
+#portSelector::-webkit-scrollbar {
+    width: 6px;
+}
+
+#portSelector::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#portSelector::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+#portSelector::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+
+/* Animaciones para el LED de estado */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-blink {
+    animation: blink 1s ease-in-out infinite;
+}
+
+.led-conectado {
+    box-shadow: 0 0 10px #10b981, 0 0 20px #10b981, 0 0 30px #10b981;
+}
+
+.led-desconectado {
+    box-shadow: 0 0 5px #9ca3af;
+}
+
+.led-conectando {
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+/* Estilo para scrollbar del selector de puertos */
+#portSelector::-webkit-scrollbar {
+    width: 6px;
+}
+
+#portSelector::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#portSelector::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+#portSelector::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+.port-item:hover {
+    transform: translateX(4px);
+    transition: transform 0.2s ease;
+}
+
+/* Agrega en el head o en un archivo CSS separado */
+.animate-pulse {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.hidden {
+    display: none !important;
+}

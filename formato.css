@@ -1,0 +1,469 @@
+/* Estilos complementarios para Tailwind */
+
+/* Estilos específicos para impresión/PDF */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    #contenidoParaPDF {
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+/* Ajustes específicos para tablas de datos generales */
+.tabla-datos-generales th,
+.tabla-datos-generales td {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+
+    .tabla-datos-generales th,
+    .tabla-datos-generales td {
+        font-size: 0.7rem !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+
+    .tabla-datos-generales input {
+        font-size: 0.7rem !important;
+        padding: 0.125rem 0.25rem !important;
+    }
+}
+
+/* Mejoras para inputs en tablas */
+.tabla-datos-generales input {
+    transition: all 0.2s ease;
+}
+
+.tabla-datos-generales input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Estilos para la gráfica */
+#graficaDeformaciones {
+    max-height: 400px;
+}
+
+/* Clases específicas para evitar cortes en PDF */
+.page-break-avoid {
+    page-break-inside: avoid;
+}
+
+.page-break-before {
+    page-break-before: always;
+}
+
+/* Estilos para la tabla de mediciones en móviles */
+@media (max-width: 640px) {
+
+    #tablaDatos th,
+    #tablaDatos td {
+        padding: 0.375rem 0.25rem !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+/* Clase para campos de solo lectura */
+.readonly-field {
+    background-color: #f9fafb;
+    color: #374151;
+    cursor: not-allowed;
+}
+
+/* Ajustes para el título rojo */
+h2 {
+    background-color: #991b1b;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+}
+
+/* Mejoras para logos */
+.logo1 {
+    height: auto;
+    max-height: 80px;
+}
+
+/* Ajustes para contenedor de gráfica */
+.grafica-contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Clases específicas para Bootstrap que se mantienen */
+.dropdown-menu {
+    border-radius: 0.5rem !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.modal-pdf-opciones {
+    display: none;
+    /* Oculto por defecto */
+    position: fixed;
+    /* Posición fija para que flote */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo semitransparente */
+    z-index: 10000;
+    /* Alto z-index para estar encima de todo */
+}
+
+/* En formato.css */
+.no-pdf {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Clase específica para el modal */
+.modal-pdf-opciones.no-pdf {
+    display: none !important;
+}
+
+/* Clase para elementos solo en pantalla */
+.solo-pantalla {
+    display: block;
+}
+
+@media print {
+    .solo-pantalla {
+        display: none !important;
+    }
+}
+
+/* Asegurar que el modal no sea visible */
+.modal-pdf-opciones {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+}
+
+.modal-pdf-opciones[style*="display: flex"] {
+    display: flex !important;
+}
+
+/* Dar más espacio a las columnas de datos */
+table td:nth-child(2),
+table td:nth-child(4),
+table td:nth-child(6),
+table td:nth-child(8) {
+    width: 110px !important;
+}
+
+/* Estilos específicos para PDF */
+.pdf-titulo {
+    padding: 0.25rem 0.5rem !important;
+    margin: 0.5rem 0 !important;
+}
+
+.pdf-th {
+    font-size: 0.7rem !important;
+    padding: 0.125rem 0.25rem !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    line-height: 1.1 !important;
+}
+
+.pdf-td {
+    font-size: 0.7rem !important;
+    padding: 0.125rem 0.25rem !important;
+    min-width: 60px !important;
+    max-width: 80px !important;
+}
+
+.pdf-input {
+    font-size: 0.7rem !important;
+    padding: 0.125rem 0.25rem !important;
+    height: 1.5rem !important;
+}
+
+/* Asegurar que el área se vea idéntica en pantalla y PDF */
+#areaCelda {
+    font-weight: normal !important;
+    color: #000000 !important;
+    background-color: #ffffff !important;
+}
+
+/* Reforzar en modo impresión/PDF (html2pdf simula @media print) */
+@media print {
+    #areaCelda {
+        font-weight: normal !important;
+        color: #000000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ======== EVITAR CORTE DE FILAS EN PDF ======== */
+#tablaDatos {
+    page-break-inside: auto;
+}
+
+#tablaDatos tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto;
+}
+
+#tablaDatos thead {
+    display: table-header-group;
+}
+
+#tablaDatos tbody {
+    display: table-row-group;
+}
+
+.page-break-before {
+    page-break-before: always;
+}
+
+
+/* ========================================================
+   ESTILOS ESPECÍFICOS PARA TABLA GENERAL DE PILAS (ANCHO REDUCIDO EN CONTROLES)
+   ======================================================== */
+
+.tabla-general-pilas-especifica th,
+.tabla-general-pilas-especifica td {
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.4rem !important;
+}
+
+/* Reducir específicamente el ancho de las columnas de Long. control */
+.tabla-general-pilas-especifica th:nth-child(5),
+.tabla-general-pilas-especifica th:nth-child(7),
+.tabla-general-pilas-especifica th:nth-child(9),
+.tabla-general-pilas-especifica th:nth-child(11),
+.tabla-general-pilas-especifica th:nth-child(13),
+.tabla-general-pilas-especifica th:nth-child(15) {
+    min-width: 70px !important;
+    width: 80px !important;
+    max-width: 90px !important;
+}
+
+.tabla-general-pilas-especifica td:nth-child(6),
+.tabla-general-pilas-especifica td:nth-child(8),
+.tabla-general-pilas-especifica td:nth-child(10),
+.tabla-general-pilas-especifica td:nth-child(12),
+.tabla-general-pilas-especifica td:nth-child(14),
+.tabla-general-pilas-especifica td:nth-child(16) {
+    width: 75px !important;
+    min-width: 65px !important;
+    padding: 0.2rem !important;
+}
+
+/* Inputs de longitud de control más compactos */
+.tabla-general-pilas-especifica input[id^="long"] {
+    font-size: 0.68rem !important;
+    padding: 0.15rem 0.2rem !important;
+    min-width: 60px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* === ESTILOS PARA IMPRESIÓN / PDF === */
+@media print {
+    .tabla-general-pilas-especifica th,
+    .tabla-general-pilas-especifica td {
+        font-size: 0.65rem !important;
+        padding: 0.25rem 0.3rem !important;
+    }
+
+    /* Mantener rotación solo en encabezados largos */
+    .tabla-general-pilas-especifica th {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        white-space: nowrap;
+        height: 120px !important;
+    }
+
+    /* Excepciones: no rotar los encabezados cortos o con colspan */
+    .tabla-general-pilas-especifica th[colspan],
+    .tabla-general-pilas-especifica th:nth-child(1),  /* Pila # */
+    .tabla-general-pilas-especifica th:nth-child(3),  /* Fecha elaboración */
+    .tabla-general-pilas-especifica th:nth-child(2),  /* Ancho promedio (th de la izquierda) */
+    .tabla-general-pilas-especifica th:nth-child(4),  /* Fecha ruptura */
+    .tabla-general-pilas-especifica th:nth-child(6),  /* Edad */
+    .tabla-general-pilas-especifica th:nth-child(8),  /* Promedio longitud (colspan) */
+    .tabla-general-pilas-especifica th:nth-child(10), /* Responsable (colspan) */
+    .tabla-general-pilas-especifica th:nth-child(12)  /* Área (th izquierda) */
+    {
+        writing-mode: horizontal-tb !important;
+        height: auto !important;
+        white-space: normal !important;
+    }
+
+    .tabla-general-pilas-especifica input[id^="long"] {
+        font-size: 0.63rem !important;
+        padding: 0.1rem !important;
+        border: 1px solid #999 !important;
+    }
+
+    /* Forzar ancho más estrecho en PDF para esas columnas */
+    .tabla-general-pilas-especifica td:nth-child(6),
+    .tabla-general-pilas-especifica td:nth-child(8),
+    .tabla-general-pilas-especifica td:nth-child(10),
+    .tabla-general-pilas-especifica td:nth-child(12),
+    .tabla-general-pilas-especifica td:nth-child(14),
+    .tabla-general-pilas-especifica td:nth-child(16) {
+        width: 65px !important;
+        min-width: 60px !important;
+    }
+}
+
+
+
+/* ========================================================
+   ESTILOS ESPECÍFICOS PARA TABLA GENERAL DE MURETES (MÁS PEQUEÑA EN PDF)
+   ======================================================== */
+
+.tabla-general-muretes {
+    width: 100% !important;
+    table-layout: fixed; /* Distribuye columnas equitativamente */
+    font-size: 0.75rem; /* Fuente más pequeña */
+}
+
+.tabla-general-muretes th,
+.tabla-general-muretes td {
+    padding: 0.25rem 0.35rem !important; /* Menos padding */
+    font-size: 0.75rem !important;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden; /* Evita desbordes */
+    word-wrap: break-word; /* Rompe palabras largas si es necesario */
+}
+
+/* Reducir anchos de columnas para que quepa todo */
+.tabla-general-muretes th:nth-child(1), /* Murete # */
+.tabla-general-muretes td:nth-child(2) {
+    width: 50px !important;
+}
+
+.tabla-general-muretes th:nth-child(3), /* Fecha elaboración */
+.tabla-general-muretes td:nth-child(4) {
+    width: 70px !important;
+}
+
+.tabla-general-muretes th:nth-child(5), /* Longitud LADO #1 */
+.tabla-general-muretes td:nth-child(6) {
+    width: 90px !important;
+}
+
+.tabla-general-muretes th:nth-child(7), /* Altura diagonal */
+.tabla-general-muretes td:nth-child(8) {
+    width: 70px !important;
+}
+
+.tabla-general-muretes th:nth-child(9), /* Fecha ruptura */
+.tabla-general-muretes td:nth-child(10) {
+    width: 70px !important;
+}
+
+.tabla-general-muretes th:nth-child(11), /* Longitud LADO #2 */
+.tabla-general-muretes td:nth-child(12) {
+    width: 90px !important;
+}
+
+.tabla-general-muretes th:nth-child(13), /* Ancho promedio */
+.tabla-general-muretes td:nth-child(14) {
+    width: 70px !important;
+}
+
+.tabla-general-muretes th:nth-child(15), /* Edad */
+.tabla-general-muretes td:nth-child(16) {
+    width: 50px !important;
+}
+
+.tabla-general-muretes th:nth-child(17), /* Longitud promedio */
+.tabla-general-muretes td:nth-child(18) {
+    width: 90px !important;
+}
+
+.tabla-general-muretes th:nth-child(19), /* Área */
+.tabla-general-muretes td:nth-child(20) {
+    width: 70px !important;
+}
+
+.tabla-general-muretes td[colspan] {
+    width: auto !important;
+}
+
+/* Inputs más compactos */
+.tabla-general-muretes input {
+    font-size: 0.75rem !important;
+    padding: 0.15rem 0.2rem !important;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* === ESTILOS PARA IMPRESIÓN / PDF === */
+@media print {
+    .tabla-general-muretes {
+        width: 100% !important;
+        font-size: 8pt !important; /* Aún más pequeña en PDF */
+    }
+
+    .tabla-general-muretes th,
+    .tabla-general-muretes td {
+        font-size: 7pt !important;
+        padding: 2px 3px !important;
+        border: 1px solid #999 !important;
+    }
+
+    /* Rotar encabezados largos para ahorrar espacio */
+    .tabla-general-muretes th {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        white-space: nowrap;
+        height: 100px !important; /* Altura para rotación */
+        padding: 5px 3px !important;
+        font-weight: bold;
+    }
+
+    /* No rotar encabezados cortos o con colspan */
+    .tabla-general-muretes th[colspan],
+    .tabla-general-muretes th:nth-child(1), /* Murete # */
+    .tabla-general-muretes th:nth-child(3), /* Fecha elaboración */
+    .tabla-general-muretes th:nth-child(7), /* Altura diagonal */
+    .tabla-general-muretes th:nth-child(9), /* Fecha ruptura */
+    .tabla-general-muretes th:nth-child(13), /* Ancho promedio */
+    .tabla-general-muretes th:nth-child(15), /* Edad */
+    .tabla-general-muretes th:nth-child(19) /* Área */
+    {
+        writing-mode: horizontal-tb !important;
+        height: auto !important;
+        white-space: normal !important;
+    }
+
+    /* Evitar cortes de filas */
+    .tabla-general-muretes tr {
+        page-break-inside: avoid !important;
+    }
+
+    .tabla-general-muretes input {
+        font-size: 7pt !important;
+        padding: 1px !important;
+        border: 1px solid #ccc !important;
+    }
+}
